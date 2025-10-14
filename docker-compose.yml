@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    environment:
+      PORT: "8080"       # всередині контейнера
+      FLASK_DEBUG: "1"
+    command: sh -c "flask --app app run -h 0.0.0.0 -p $$PORT --reload"
+    ports:
+      - "5050:8080"      # назовні слухаємо 5050 (уникли конфлікту)
+    volumes:
+      - .:/app

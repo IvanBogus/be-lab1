@@ -6,6 +6,6 @@ services:
       FLASK_DEBUG: "1"
     command: sh -c "flask --app app run -h 0.0.0.0 -p $$PORT --reload"
     ports:
-      - "5050:8080"      # назовні слухаємо 5050 (уникли конфлікту)
+      - "5050:8080"      # назовні 5050
     volumes:
       - .:/app

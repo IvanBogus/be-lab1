@@ -1,4 +1,8 @@
 # be-lab1
-flask
-git add README.md
-git commit -m "docs(readme): інструкції локального запуску та тести /healthcheck"
+
+Мінімальний Flask-сервіс ЛР1: ендпоінт `GET /healthcheck`, Docker, docker-compose, деплой на Render.
+
+## Локальний запуск (Docker)
+docker compose up --build
+
+# потім відкрити http://localhost:5050/healthcheck

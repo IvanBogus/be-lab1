@@ -4,12 +4,6 @@ be-lab1
 ЛР1 — /healthcheck, Docker/Compose, деплой на Render.
 ЛР2 — базове REST API для обліку витрат (users, categories, records), ін-меморі.
 
-Локальний запуск (Docker Compose)
-    docker compose up --build
-    # після старту: http://localhost:5050/healthcheck
-
-Production
-    https://be-lab1-nvb9.onrender.com/healthcheck
 
 Структура
 app/
@@ -19,6 +13,14 @@ Dockerfile
 docker-compose.yml
 requirements.txt
 README.md
+
+
+Локальний запуск (Docker Compose)
+    docker compose up --build
+    # після старту: http://localhost:5050/healthcheck
+
+Production
+    https://be-lab1-nvb9.onrender.com/healthcheck
 
 
 Ендпоінти
@@ -61,6 +63,7 @@ Records
     
     Примітка: хоча б один із параметрів (user_id або category_id) обов’язковий; без них — 400.
 
+Postman: імпортуй /postman/*, обери env (local|prod) і запусти Run collection.
 
 Приклади запитів (Windows PowerShell, prod)
     $base = "https://be-lab1-nvb9.onrender.com"

@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "Lab2 Expenses API",
+    "_postman_id": "e6c7ab3a-7b1b-4b6a-a9f8-000000000001",
+    "description": "Колекція для ЛР2: healthcheck, users, categories, records. Запускай у Runner у вказаному порядку, щоб пройти флоу.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Healthcheck",
+      "request": { "method": "GET", "url": "{{base_url}}/healthcheck" },
+      "event": [
+        {
+          "listen": "test",
+          "script": { "exec": ["pm.test(\"200\", ()=> pm.response.code===200);"] }
+        }
+      ]
+    },
+    {
+      "name": "Create user",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/user",
+        "body": { "mode": "raw", "raw": "{\"name\":\"Alex\"}" }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"201\", ()=> pm.response.code===201);",
+              "pm.environment.set(\"user_id\", pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create category",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/category",
+        "body": { "mode": "raw", "raw": "{\"title\":\"Food\"}" }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"201\", ()=> pm.response.code===201);",
+              "pm.environment.set(\"category_id\", pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create record",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/record",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"user_id\":{{user_id}},\"category_id\":{{category_id}},\"amount\":{{amount}}}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"201\", ()=> pm.response.code===201);",
+              "pm.environment.set(\"record_id\", pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get records by user",
+      "request": { "method": "GET", "url": "{{base_url}}/record?user_id={{user_id}}" },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"200\", ()=> pm.response.code===200);",
+              "pm.test(\"has items\", ()=> Array.isArray(pm.response.json()) && pm.response.json().length>=1);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Negative: GET /record without params",
+      "request": { "method": "GET", "url": "{{base_url}}/record" },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"400\", ()=> pm.response.code===400);",
+              "pm.test(\"error key\", ()=> pm.response.json().error);"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
